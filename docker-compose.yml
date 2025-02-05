@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    env_file: .env
+    restart: always
+    volumes:
+      - ./db_init:/docker-entrypoint-initdb.d
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysql", "-u", "${MYSQL_USER}", "-p${MYSQL_PASSWORD}", "-e", "SELECT 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    # healthcheck:
+    #   test: ["CMD", "mysql", "-u", "aitu", "-p$$MYSQL_PASSWORD", "-e", "SELECT 1"]
+    #   interval: 5s
+    #   timeout: 5s
+    #   retries: 5
+    networks:
+      - medic
+    container_name: medic_db
+
+  app:
+    build: .
+    env_file: .env
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - medic
+    container_name: medic_app
+
+
+volumes:
+  db-data:
+
+networks:
+  medic:
+
