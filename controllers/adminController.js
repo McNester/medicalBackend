@@ -67,6 +67,18 @@ module.exports = {
     }
   },
 
+
+    listUsers: async (req, res) => {
+    try {
+      const doctors = await User.findAll({
+        attributes: ['id', 'email', 'createdAt','role']
+      });
+      res.json(doctors);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
   listPatients: async (req, res) => {
     try {
       const patients = await PatientCard.findAll({

@@ -5,6 +5,7 @@ const adminController = require('../controllers/adminController');
 router.delete('/doctors/:doctorId', adminController.deleteDoctor);
 router.post('/doctors/:doctorId/schedules', adminController.createSchedule);
 router.get('/doctors', adminController.listDoctors);
+router.get('/users', adminController.listUsers);
 
 router.put('/users/:userId/role', adminController.grantAdmin);
 
