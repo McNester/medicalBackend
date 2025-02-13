@@ -23,6 +23,15 @@ services:
       - medic
     container_name: medic_db
 
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - medic
+    container_name: medic_redis
+
   app:
     build: .
     env_file: .env
