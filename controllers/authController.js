@@ -27,7 +27,7 @@ module.exports = {
                 expiresIn: process.env.JWT_EXPIRES_IN
             });
 
-            const sessionToken = jwt.sign({ sessionId: user._id }, process.env.JWT_SECRET, { expiresIn: '1m' });
+            const sessionToken = jwt.sign({ sessionId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
             await redis.set(user.id.toString(), sessionToken);
 
             res.json({ token,sessionToken });
