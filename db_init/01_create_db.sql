@@ -4,7 +4,10 @@ CREATE TABLE Users (
   password VARCHAR(255) NOT NULL,
   role ENUM('admin', 'doctor') DEFAULT 'doctor',
   createdAt DATETIME,
-  updatedAt DATETIME
+  updatedAt DATETIME,
+  verified BOOLEAN DEFAULT false,
+  verificationToken VARCHAR(255),
+  tokenExpiresAt DATETIME
 );
 
 CREATE TABLE Schedules (
@@ -30,11 +33,14 @@ CREATE TABLE PatientCards (
 );
 
 
-INSERT INTO Users (email, password, role, createdAt, updatedAt) 
+INSERT INTO Users (email, password, role, createdAt, updatedAt, verified, verificationToken, tokenExpiresAt) 
 VALUES (
   'admin@hospital.com',
   '$2a$12$bX02EQ10oGH3UxPShaOlYuFTSfOrBmgvRHibYzMEjJQtNtoTgy7OS', 
   'admin', 
   NOW(), 
-  NOW()
+  NOW(),
+  true,
+  NULL,
+  NULL
 );

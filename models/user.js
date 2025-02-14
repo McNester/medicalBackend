@@ -21,18 +21,30 @@ const User = db.define('User', {
     role: {
         type: DataTypes.ENUM('doctor','admin'),
         defaultValue: 'doctor'
+    },
+    verified: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+    verificationToken: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    tokenExpiresAt: {
+        type: DataTypes.DATE,
+        allowNull: true
     }
 });
 
 
 User.beforeValidate((user, options) => {
-  if (user.role) delete user.role;
+    if (user.role) delete user.role;
 });
 
 User.beforeSave(async (user) => {
-  if (user.changed('password')) {
-    user.password = await bcrypt.hash(user.password, 10);
-  }
+    if (user.changed('password')) {
+        user.password = await bcrypt.hash(user.password, 10);
+    }
 });
 
 module.exports = User;
